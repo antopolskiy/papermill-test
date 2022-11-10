@@ -6,13 +6,15 @@ The example is the first cell in the `test.ipynb` notebook.
 
 # Run
 
+Usage: `papermill [OPTIONS] NOTEBOOK_PATH [OUTPUT_PATH]`
+
 Run the notebook with `papermill` with default parameters:
 
 ```bash
 papermill test.ipynb test2.ipynb
 ```
 
-Note that papermill modifies the notebook `test.ipynb` and the output can (and should) be saved in a different file `test2.ipynb`. However, it can also be the same notebook.
+Note that during the run the notebook will be modified (just like when running a notebook manually). Papermill can (and should, see [below](#take-note)] save the modified notebook in a different file, in the example above it is `test2.ipynb`.
 
 Run the notebook with `papermill` with custom parameters:
 
@@ -38,4 +40,4 @@ papermill test.ipynb test2.ipynb --log-output
 
 # Take note
 
-When parameters are provided in a file or in the command line, papermill adds them in a cell right below the cell with the default parameters (examine `test2.ipynb` after running `papermill test.ipynb test2.ipynb -f params.yaml`). If the output is the same notebook, the next executions with the parameters will not work (they will be overwritten with the parameters from the previous run). To avoid this, use a different output notebook, which can then be purged, if needed. **The source of truth is the original notebook and it should not be modified.**
+When parameters are provided in a YAML file or the command line (with `-p` flag), upon execution `papermill` will add them in a new cell below the cell with the default parameters (examine `test2.ipynb` after running `papermill test.ipynb test2.ipynb -f params.yaml`). So if the output notebook is the same as the source notebook, this cell will be added to the original notebook. In this case, the next executions with the parameters will not work, because they will be overwritten with the parameters from the previous run. To avoid this, always use an output notebook, never overwrite the original. The output notebook can then be purged, if needed. In other words, **the source of truth is the original notebook and it should not be modified when running with `papermill`.**
